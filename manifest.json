@@ -6,10 +6,17 @@
     "author": "achraf",
     "permissions": ["bookmarks"],
     "background": {
-      "service_worker": "background.js"
+      "service_worker": "background.js",
+      "type": "module"
     },
+    "content_scripts": [
+      {
+        "matches": ["*://*/*"],
+        "js": ["content.js"]
+      }
+    ],
     "action": {
-      "default_popup": "popup.html",
+      "default_popup": "index.html",
       "default_icon": {
         "16": "bookmark.png",
         "48": "bookmark.png",
