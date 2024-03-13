@@ -22,12 +22,14 @@
 // =======================================
 
 function GetCheldrenNode(bookmark,index) {
-  console.log("enter",index);
-  console.log("bookmark id",bookmark.id);
   if (!bookmark.hasOwnProperty("url")) {
     chrome.bookmarks.getChildren(bookmark.id,function (_bookmarks) {
       console.log(index,_bookmarks);
+      _bookmarks.forEach((book,_index)=>{
+        GetCheldrenNode(book,`the main index : ${index} , the subindex ${_index}`)
+      });
     });
+
   } 
 }
 
@@ -51,7 +53,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     // ===========================================
 
     chrome.bookmarks.get(["0","1","2"],function (bookmarks) {
-      console.log(bookmarks);
       bookmarks.forEach((bookmark,index)=>{
         GetCheldrenNode(bookmark,index)
       });
