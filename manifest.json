@@ -4,7 +4,7 @@
     "version": "1.0",
     "description": "Retrieve all bookmarks in Chrome",
     "author": "achraf",
-    "permissions": ["bookmarks"],
+    "permissions": ["bookmarks","downloads"],
     "background": {
       "service_worker": "background.js",
       "type": "module"
