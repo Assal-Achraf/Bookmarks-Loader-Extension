@@ -6,16 +6,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bookmarks loader</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-    <div>
-        <h1>Bookmarks loader</h2>
-        <ul id="bookmarksList"></ul>
+    <div >
+        <div>
+            <h1 class="header">Bookmarks loader</h2>
+                <ul id="bookmarksList"></ul>
+        </div>
+        <h2 class="subheader">Bookmark Exporter</h1>
+        <div class="container">
+            <button class="btn export" id="exportBtn">Export Bookmarks</button>
+            <button class="btn import" id="importBtn">Import Bookmarks</button>
+        </div>
     </div>
-    <h3>Bookmark Exporter</h1>
-  <button id="exportBtn">Export Bookmarks</button>
 </body>
 <!-- <script src="index.js"></script> -->
 <script src="content.js"></script>
+
 </html>
