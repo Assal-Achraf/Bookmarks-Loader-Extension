@@ -14,6 +14,9 @@ function ManegingJsonFil(bookmarks) {
   }
 }
 
+
+
+
 function GetCheldrenNode(bookmark) {
   try {
     const bookmarksJSON = [];
@@ -42,6 +45,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       // Now you can use bookmarksJSON as your JSON data
       console.log(bookmarksJSON);
     });
+  }
+  if (message.action === 'createBookmarks') {
+    chrome.bookmarks.create();
   }
 });
 
