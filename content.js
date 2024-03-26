@@ -3,17 +3,30 @@ function debug(text) {
   p.textContent = text;
   document.body.appendChild(p);
 }
+
+function showLoading() {
+  document.getElementById('loading').style.display = 'block';
+}
+
+// Hide loading indicator
+function hideLoading() {
+  document.getElementById('loading').style.display = 'none';
+}
+
+
 function ImportJsonFile(event) {
   try {
+    showLoading()
     const file = event.target.files[0];
     const reader = new FileReader();
-    reader.onload = function (event) {
-      const jsonContents = event.target.result;
-      const jsonData = JSON.parse(jsonContents);
-      chrome.runtime.sendMessage({ action: 'createBookmarks', jsonData }, (bookmarks) => {});
+    reader.onload = async function (event) {
+      const jsonContents = await event.target.result;
+      const jsonData = await JSON.parse(jsonContents);
+      await chrome.runtime.sendMessage({ action: 'createBookmarks', jsonData }, (bookmarks) => {});
     };
 
     reader.readAsText(file);
+    hideLoading() 
   } catch (error) {
     debug(error)
   }
