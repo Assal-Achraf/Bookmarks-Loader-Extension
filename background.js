@@ -15,15 +15,34 @@ function ManegingJsonFil(bookmarks) {
 }
 
 
+function CreateBookmark(bookmark) {
+  const { children, ...createdData } = bookmark; // Destructure 'children' from the bookmark object
 
+  // Check if the bookmark is a folder or a bookmark
+  if (children && Array.isArray(children)) {
+    // If it's a folder, first create the folder
+    chrome.bookmarks.create(createdData, (createdFolder) => {
+      // Recursively add children to the folder
+      children.forEach((child) => {
+        child.parentId = createdFolder.id; // Set parentId to the id of the created folder
+        CreateBookmark(child);
+      });
+    });
+  } else {
+    // If it's a bookmark, simply create it
+    chrome.bookmarks.create(createdData);
+  }
+}
 
 function GetCheldrenNode(bookmark) {
   try {
     const bookmarksJSON = [];
     bookmark.forEach((node) => {
       const _bookmark = {
+        // id: node.id || null,
         title: node.title,
         url: node.url || null,
+        parentId: node.parentId? node.parentId :null,
         children: node.children ? GetCheldrenNode(node.children) : null
       }
 
@@ -37,6 +56,8 @@ function GetCheldrenNode(bookmark) {
 
 }
 
+
+
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === 'getBookmarks') {
     chrome.bookmarks.getTree(function (bookmarkTreeNodes) {
@@ -47,7 +68,11 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     });
   }
   if (message.action === 'createBookmarks') {
-    chrome.bookmarks.create();
+
+    const jsonData = message.jsonData;
+    jsonData.forEach((bookmark)=>{
+      CreateBookmark(bookmark)
+    });
   }
 });
 
